@@ -1,383 +1,267 @@
-Aplicativo Mobile de Posts - Documentação Técnica
-1. Visão Geral
+🎓 Fase 4 - Plataforma de Posts e Comentários
 
-Este projeto consiste em uma aplicação mobile desenvolvida com React Native e TypeScript, como entrega do módulo 4 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP.
+!React Native !TypeScript !Axios !Android !Status
 
-A aplicação tem como objetivo consumir a API de Posts desenvolvida na Fase 2 do curso, permitindo a visualização, pesquisa e gerenciamento de posts e comentários, além do gerenciamento de alunos e professores.
+Projeto desenvolvido como parte da entrega do Módulo 4 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP.
 
-O aplicativo possui diferentes níveis de acesso, de acordo com o perfil do usuário:
+A aplicação consiste em uma plataforma mobile para publicação, visualização e interação com posts e comentários, com controle de acesso baseado nos diferentes perfis de usuários.
 
-Usuário público (não autenticado):
+📋 Sobre o projeto
 
-Visualizar posts;
-Consultar detalhes dos posts;
-Visualizar comentários;
-Pesquisar posts.
+A plataforma permite que usuários visualizem publicações e comentários, realizem buscas e interajam de acordo com suas permissões.
 
-Aluno:
+A aplicação possui três perfis de acesso:
 
-Todas as funcionalidades públicas;
-Adicionar comentários aos posts.
+Aluno: pode visualizar publicações e comentários, realizar buscas e adicionar comentários.
+Professor: pode criar publicações, editar suas próprias publicações e comentários, além de acessar o gerenciamento de usuários.
+Administrador: possui acesso completo, podendo criar, editar e excluir publicações e comentários, inclusive de outros usuários, além de gerenciar alunos e professores.
 
-Professor:
+As informações são consumidas por meio de uma API local desenvolvida na entrega da Fase 2 do curso.
 
-Todas as funcionalidades disponíveis aos alunos;
-Criar posts;
-Editar seus próprios posts;
-Gerenciar alunos e professores.
-
-Administrador:
-
-Acesso completo às funcionalidades da aplicação;
-Criar e gerenciar posts;
-Editar ou excluir posts de qualquer usuário;
-Editar ou excluir comentários;
-Gerenciar alunos e professores.
-2. Tecnologias Utilizadas
-React Native 0.88.1
-React 19.3.0
-TypeScript 6
-React Navigation 7
-Axios
-AsyncStorage
-JWT Decode
-Lucide React Native
-React Native Safe Area Context
-React Native Screens
-React Native SVG
-Jest
-ESLint
-Prettier
-3. Arquitetura
-
-A aplicação utiliza arquitetura baseada em componentes, com separação entre telas, componentes reutilizáveis, contexto de autenticação, serviços e armazenamento local.
-
-Fluxo da aplicação
+🚀 Funcionalidades
+🌐 Funcionalidades públicas
+Visualização de publicações.
+Visualização de detalhes das publicações.
+Visualização de comentários.
+Busca de publicações.
+👨‍🎓 Alunos
+Login na plataforma.
+Visualização de publicações.
+Visualização de comentários.
+Adição de comentários.
+👨‍🏫 Professores
+Login na plataforma.
+Criação de publicações.
+Edição das próprias publicações.
+Edição dos próprios comentários.
+Acesso ao gerenciamento de usuários.
+Cadastro e gerenciamento de alunos e professores.
+🛡️ Administradores
+Acesso completo à plataforma.
+Criação de publicações.
+Edição e exclusão de qualquer publicação.
+Criação, edição e exclusão de comentários.
+Gerenciamento de alunos.
+Gerenciamento de professores.
+Alteração da situação dos usuários.
+🛠️ Tecnologias utilizadas
+Tecnologia	Finalidade
+React Native	Desenvolvimento mobile
+TypeScript	Tipagem estática
+React 19	Biblioteca principal
+React Navigation 7	Navegação entre telas
+Axios	Comunicação com a API
+AsyncStorage	Armazenamento local do token
+JWT Decode	Decodificação de tokens JWT
+Lucide React Native	Ícones
+React Native SVG	Renderização de elementos vetoriais
+Jest	Testes automatizados
+ESLint	Padronização e análise de código
+📁 Estrutura do projeto
 text
-             Aplicativo Mobile
-                    |
-                    v
-                  App.tsx
-                    |
-                    v
-             AuthProvider
-                    |
-                    v
-            NavigationContainer
-                    |
-                    v
-              Stack Navigator
-                    |
-          +---------+---------+
-          |         |         |
-          v         v         v
-         Home     Login   Management
-          |
-          v
-      PostDetails
-          |
-          v
-       Services
-          |
-          v
-       Axios API
-          |
-          v
-      Backend FIAP
-
-Autenticação
-
-O gerenciamento de autenticação é realizado por meio da Context API.
-
-O AuthContext é responsável por:
-
-Armazenar os dados do usuário autenticado;
-Gerenciar o token JWT;
-Recuperar a sessão ao iniciar o aplicativo;
-Identificar o perfil do usuário;
-Controlar permissões de acesso;
-Realizar login e logout.
-
-O token JWT é armazenado localmente utilizando AsyncStorage.
-
-As requisições autenticadas utilizam um interceptor do Axios, responsável por adicionar automaticamente o token ao cabeçalho Authorization.
-
-4. Estrutura do Projeto
-text
-App
-|
-├── src
-│   |
-│   ├── components
-│   │   ├── Comment
-│   │   ├── Comments
-│   │   ├── Header
-│   │   ├── PostList
-│   │   └── Searchbar
-│   |
-│   ├── context
+fase4/
+│
+├── src/
+│   ├── context/
 │   │   └── auth.context.tsx
-│   |
-│   ├── screens
-│   │   ├── CreatePost
-│   │   ├── Home
-│   │   ├── Login
-│   │   ├── Management
-│   │   │   ├── StudentForm
-│   │   │   ├── StudentList
-│   │   │   ├── TeacherForm
-│   │   │   └── TeacherList
-│   │   └── PostDetails
-│   |
-│   ├── services
+│   │
+│   ├── services/
 │   │   ├── api.ts
 │   │   ├── auth.service.ts
 │   │   ├── pessoa.service.ts
 │   │   └── post.service.ts
-│   |
-│   ├── storage
+│   │
+│   ├── storage/
 │   │   └── auth.storage.ts
-│   |
-│   ├── theme
-│   |
-│   ├── types
-│   |
-│   └── utils
-│
-├── __tests__
-│
-├── android
-├── ios
+│   │
+│   └── screens/
+│       ├── Login/
+│       ├── Home/
+│       ├── CreatePost/
+│       ├── PostDetails/
+│       └── Management/
+│           ├── TeacherList/
+│           ├── TeacherForm/
+│           ├── StudentList/
+│           └── StudentForm/
 │
 ├── App.tsx
-├── index.js
 ├── package.json
-└── tsconfig.json
+├── tsconfig.json
+└── README.md
 
 
-Observação: a estrutura apresenta os principais diretórios identificados no projeto. Os arquivos internos das pastas de componentes, telas, tema, tipos e utilitários podem ser detalhados conforme a implementação.
+Estrutura organizada por responsabilidades, separando autenticação, serviços de comunicação com a API, armazenamento e telas da aplicação.
 
-5. Configuração Inicial
-Pré-requisitos
-Node.js 22.13.0 ou superior;
-npm;
-Android Studio;
-Android SDK;
-Emulador Android configurado;
-Backend da API da Fase 2 em execução.
+⚙️ Pré-requisitos
 
-É necessário configurar corretamente o ambiente de desenvolvimento React Native para Android, incluindo as variáveis de ambiente do Android SDK.
+Antes de executar o projeto, é necessário ter instalado:
 
-6. Variáveis e Configuração da API
+Node.js versão 22.13.0 ou superior.
+npm.
+React Native CLI.
+Android Studio.
+Android SDK.
+Emulador Android configurado.
+API da Fase 2 em execução.
+📥 Instalação
 
-A configuração da API está centralizada em:
-
-src/services/api.ts
-
-Atualmente, a URL base configurada é:
-
-typescript
-baseURL: 'http://10.0.2.2:3000/api'
-
-
-O endereço 10.0.2.2 é utilizado pelo emulador Android para acessar o localhost da máquina hospedeira.
-
-Portanto, o backend deve estar em execução na porta 3000.
-
-Importante: caso a aplicação seja executada em um dispositivo físico, será necessário substituir esse endereço pelo IP local da máquina que está executando o backend.
-
-7. Instalação
-
-Clonar o repositório:
+Clone o repositório:
 
 bash
-git clone URL_DO_REPOSITORIO
+git clone URL_DO_SEU_REPOSITORIO
 
 
-Entrar na pasta do projeto:
+Acesse a pasta do projeto:
 
 bash
 cd fase4
 
 
-Instalar as dependências:
+Instale as dependências:
 
 bash
 npm install
 
+🔌 Configuração da API
 
-Certificar-se de que o ambiente Android está configurado e que o emulador está iniciado.
+A aplicação utiliza Axios para realizar as requisições HTTP à API desenvolvida na Fase 2.
 
-8. Executar Aplicação
+A configuração atual está no arquivo src/services/api.ts:
 
-Primeiro, iniciar o backend da Fase 2 na porta 3000.
+typescript
+export const api = axios.create({
+  baseURL: 'http://10.0.2.2:3000/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-Em seguida, iniciar o Metro:
+
+Importante: o endereço 10.0.2.2 é utilizado pelo emulador Android para acessar o localhost da máquina hospedeira.
+
+Antes de executar a aplicação, certifique-se de que:
+
+A API da Fase 2 esteja em execução.
+O servidor esteja disponível na porta 3000.
+O emulador Android consiga acessar a API.
+
+Caso utilize um dispositivo físico, será necessário substituir o endereço pelo IP local da máquina que hospeda a API.
+
+▶️ Executando a aplicação
+
+Com o emulador Android aberto, execute:
+
+Terminal 1 — Metro Bundler
 
 bash
 npm start
 
 
-Em outro terminal, executar o aplicativo no emulador Android:
+Terminal 2 — Aplicação Android
 
 bash
 npm run android
 
 
-O React Native irá compilar e instalar o aplicativo no emulador.
+A aplicação será compilada e executada no emulador Android.
 
-Outros comandos disponíveis
+🔐 Autenticação e controle de acesso
 
-Executar testes:
+A autenticação é realizada por meio de JWT (JSON Web Token).
+
+Após o login, o token é armazenado localmente utilizando AsyncStorage.
+
+O contexto global de autenticação (AuthContext) disponibiliza as informações do usuário e suas permissões para toda a aplicação.
+
+Os perfis são identificados pelos seguintes códigos:
+
+Código	Perfil
+P	Professor
+A	Aluno
+D	Administrador
+
+O controle de permissões é realizado por meio de propriedades como:
+
+isAuthenticated
+isProfessor
+isStudent
+isAdmin
+canComment
+canCreatePost
+canAccessManagement
+canManageAnyPost
+
+Essa estrutura permite controlar o acesso às funcionalidades de acordo com o perfil autenticado.
+
+🔗 Integração com a API
+
+Os serviços responsáveis pela comunicação com o backend estão organizados em arquivos específicos.
+
+Autenticação
+text
+POST /api/auth/login
+
+Pessoas
+text
+GET    /api/pessoas
+GET    /api/pessoas/:id
+POST   /api/pessoas
+PUT    /api/pessoas/:id
+DELETE /api/pessoas/:id
+PATCH  /api/pessoas/:id/situacao
+
+Publicações
+text
+GET    /api/posts
+GET    /api/posts/:id
+GET    /api/posts/search
+POST   /api/posts
+PUT    /api/posts/:id
+DELETE /api/posts/:id
+
+Comentários
+text
+POST   /api/posts/:id/comentarios
+PUT    /api/posts/comentarios/:idComentario
+DELETE /api/posts/comentarios/:idComentario
+
+🧪 Testes e qualidade de código
+
+O projeto possui configuração para execução de testes automatizados com Jest e análise estática com ESLint.
+
+Executar os testes:
 
 bash
 npm test
 
 
-Executar análise estática:
+Executar o ESLint:
 
 bash
 npm run lint
 
+🎯 Objetivo acadêmico
 
-Executar no iOS:
+Este projeto tem como objetivo aplicar os conhecimentos adquiridos durante a Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP, contemplando:
 
-bash
-npm run ios
+Desenvolvimento de aplicações mobile com React Native.
+Integração entre frontend e backend.
+Consumo de APIs REST.
+Autenticação utilizando JWT.
+Gerenciamento de estado global com Context API.
+Controle de acesso baseado em perfis.
+Armazenamento local de dados.
+Organização e arquitetura de projetos.
+Desenvolvimento de interfaces mobile.
+👩‍💻 Desenvolvimento
 
-9. Componentes e Telas Principais
+Projeto acadêmico desenvolvido para a entrega da Fase 4 — Pós-Graduação em Desenvolvimento de Software Full Stack | FIAP.
 
-Home
+Tecnologia principal: React Native + TypeScript.
 
-Tela principal da aplicação;
-Exibe os posts disponíveis;
-Permite pesquisar e visualizar publicações.
+Plataforma de execução: Android Emulator.
 
-Login
-
-Realiza a autenticação do usuário;
-Integra-se ao endpoint /auth/login;
-Armazena o token JWT após autenticação.
-
-CreatePost
-
-Permite a criação de novas publicações;
-Disponível para professores e administradores.
-
-PostDetails
-
-Exibe os detalhes de uma publicação;
-Permite visualizar e gerenciar comentários conforme as permissões do usuário.
-
-Management
-
-Centraliza o gerenciamento de alunos e professores.
-
-StudentList e StudentForm
-
-Listagem e cadastro de alunos.
-
-TeacherList e TeacherForm
-
-Listagem e cadastro de professores.
-
-Header
-
-Componente reutilizável de cabeçalho.
-
-PostList
-
-Componente responsável pela apresentação dos posts.
-
-Comments e Comment
-
-Componentes utilizados na apresentação e gerenciamento dos comentários.
-
-Searchbar
-
-Componente de pesquisa de publicações.
-
-AuthContext
-
-Gerencia autenticação, sessão e permissões dos usuários.
-10. Integração com API
-
-Todas as chamadas HTTP são realizadas utilizando Axios, com configuração centralizada em src/services/api.ts.
-
-A aplicação consome a API local desenvolvida na Fase 2 do projeto.
-
-Serviços implementados
-
-authService
-
-Responsável pela autenticação:
-
-Método	Endpoint	Descrição
-POST	/auth/login	Autenticação do usuário
-
-pessoaService
-
-Responsável pelo gerenciamento de pessoas:
-
-Método	Endpoint	Descrição
-GET	/pessoas	Listar pessoas
-GET	/pessoas/:id	Buscar pessoa por identificador
-POST	/pessoas	Cadastrar pessoa
-PUT	/pessoas/:id	Atualizar pessoa
-DELETE	/pessoas/:id	Remover pessoa
-PATCH	/pessoas/:id/situacao	Alterar situação do usuário
-
-Também são utilizados filtros para listar especificamente alunos e professores.
-
-postService
-
-Responsável pelo gerenciamento de publicações e comentários:
-
-Método	Endpoint	Descrição
-GET	/posts	Listar posts com paginação
-GET	/posts/:id	Buscar post por identificador
-GET	/posts/search	Pesquisar posts
-POST	/posts	Criar post
-PUT	/posts/:id	Atualizar post
-DELETE	/posts/:id	Remover post
-POST	/posts/:id/comentarios	Adicionar comentário
-PUT	/posts/comentarios/:idComentario	Atualizar comentário
-DELETE	/posts/comentarios/:idComentario	Remover comentário
-Autenticação das requisições
-
-O Axios possui um interceptor que recupera o token armazenado no AsyncStorage e adiciona o cabeçalho:
-
-http
-Authorization: Bearer TOKEN_JWT
-
-
-A rota de login é excluída desse processo, pois não exige autenticação prévia.
-
-11. Boas Práticas Aplicadas
-Separação de responsabilidades entre telas, componentes, serviços e contexto;
-Utilização de TypeScript para tipagem estática;
-Context API para gerenciamento global de autenticação;
-AsyncStorage para persistência local do token;
-Axios centralizado para comunicação com o backend;
-Interceptor para envio automático do token JWT;
-Controle de acesso baseado em perfis de usuário;
-Componentização e reutilização de elementos;
-React Navigation para organização da navegação;
-ESLint e Prettier para padronização do código.
-12. Possíveis Evoluções
-Implementação de testes unitários com Jest e React Native Testing Library;
-Testes de integração dos serviços;
-Implementação de testes end-to-end;
-Melhorias no tratamento global de erros da API;
-Implementação de refresh token;
-Melhorias na experiência de autenticação;
-Utilização de variáveis de ambiente para configuração da API;
-Implementação de paginação com carregamento incremental;
-Melhorias de acessibilidade;
-Implementação de notificações push;
-Preparação para publicação nas lojas Google Play e App Store.
-Considerações Finais
-
-O projeto representa a evolução da aplicação de Posts desenvolvida na Fase 2 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP, agora disponibilizada em uma aplicação mobile.
-
-A solução utiliza React Native e TypeScript, integrando autenticação JWT, gerenciamento de usuários, controle de permissões e operações de posts e comentários por meio de uma API REST.
+<p align="center">
+Desenvolvido com 💙 para a FIAP
+</p>
