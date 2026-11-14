@@ -1,97 +1,383 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+Aplicativo Mobile de Posts - Documentação Técnica
+1. Visão Geral
 
-# Getting Started
+Este projeto consiste em uma aplicação mobile desenvolvida com React Native e TypeScript, como entrega do módulo 4 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+A aplicação tem como objetivo consumir a API de Posts desenvolvida na Fase 2 do curso, permitindo a visualização, pesquisa e gerenciamento de posts e comentários, além do gerenciamento de alunos e professores.
 
-## Step 1: Start Metro
+O aplicativo possui diferentes níveis de acesso, de acordo com o perfil do usuário:
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+Usuário público (não autenticado):
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Visualizar posts;
+Consultar detalhes dos posts;
+Visualizar comentários;
+Pesquisar posts.
 
-```sh
-# Using npm
+Aluno:
+
+Todas as funcionalidades públicas;
+Adicionar comentários aos posts.
+
+Professor:
+
+Todas as funcionalidades disponíveis aos alunos;
+Criar posts;
+Editar seus próprios posts;
+Gerenciar alunos e professores.
+
+Administrador:
+
+Acesso completo às funcionalidades da aplicação;
+Criar e gerenciar posts;
+Editar ou excluir posts de qualquer usuário;
+Editar ou excluir comentários;
+Gerenciar alunos e professores.
+2. Tecnologias Utilizadas
+React Native 0.88.1
+React 19.3.0
+TypeScript 6
+React Navigation 7
+Axios
+AsyncStorage
+JWT Decode
+Lucide React Native
+React Native Safe Area Context
+React Native Screens
+React Native SVG
+Jest
+ESLint
+Prettier
+3. Arquitetura
+
+A aplicação utiliza arquitetura baseada em componentes, com separação entre telas, componentes reutilizáveis, contexto de autenticação, serviços e armazenamento local.
+
+Fluxo da aplicação
+text
+             Aplicativo Mobile
+                    |
+                    v
+                  App.tsx
+                    |
+                    v
+             AuthProvider
+                    |
+                    v
+            NavigationContainer
+                    |
+                    v
+              Stack Navigator
+                    |
+          +---------+---------+
+          |         |         |
+          v         v         v
+         Home     Login   Management
+          |
+          v
+      PostDetails
+          |
+          v
+       Services
+          |
+          v
+       Axios API
+          |
+          v
+      Backend FIAP
+
+Autenticação
+
+O gerenciamento de autenticação é realizado por meio da Context API.
+
+O AuthContext é responsável por:
+
+Armazenar os dados do usuário autenticado;
+Gerenciar o token JWT;
+Recuperar a sessão ao iniciar o aplicativo;
+Identificar o perfil do usuário;
+Controlar permissões de acesso;
+Realizar login e logout.
+
+O token JWT é armazenado localmente utilizando AsyncStorage.
+
+As requisições autenticadas utilizam um interceptor do Axios, responsável por adicionar automaticamente o token ao cabeçalho Authorization.
+
+4. Estrutura do Projeto
+text
+App
+|
+├── src
+│   |
+│   ├── components
+│   │   ├── Comment
+│   │   ├── Comments
+│   │   ├── Header
+│   │   ├── PostList
+│   │   └── Searchbar
+│   |
+│   ├── context
+│   │   └── auth.context.tsx
+│   |
+│   ├── screens
+│   │   ├── CreatePost
+│   │   ├── Home
+│   │   ├── Login
+│   │   ├── Management
+│   │   │   ├── StudentForm
+│   │   │   ├── StudentList
+│   │   │   ├── TeacherForm
+│   │   │   └── TeacherList
+│   │   └── PostDetails
+│   |
+│   ├── services
+│   │   ├── api.ts
+│   │   ├── auth.service.ts
+│   │   ├── pessoa.service.ts
+│   │   └── post.service.ts
+│   |
+│   ├── storage
+│   │   └── auth.storage.ts
+│   |
+│   ├── theme
+│   |
+│   ├── types
+│   |
+│   └── utils
+│
+├── __tests__
+│
+├── android
+├── ios
+│
+├── App.tsx
+├── index.js
+├── package.json
+└── tsconfig.json
+
+
+Observação: a estrutura apresenta os principais diretórios identificados no projeto. Os arquivos internos das pastas de componentes, telas, tema, tipos e utilitários podem ser detalhados conforme a implementação.
+
+5. Configuração Inicial
+Pré-requisitos
+Node.js 22.13.0 ou superior;
+npm;
+Android Studio;
+Android SDK;
+Emulador Android configurado;
+Backend da API da Fase 2 em execução.
+
+É necessário configurar corretamente o ambiente de desenvolvimento React Native para Android, incluindo as variáveis de ambiente do Android SDK.
+
+6. Variáveis e Configuração da API
+
+A configuração da API está centralizada em:
+
+src/services/api.ts
+
+Atualmente, a URL base configurada é:
+
+typescript
+baseURL: 'http://10.0.2.2:3000/api'
+
+
+O endereço 10.0.2.2 é utilizado pelo emulador Android para acessar o localhost da máquina hospedeira.
+
+Portanto, o backend deve estar em execução na porta 3000.
+
+Importante: caso a aplicação seja executada em um dispositivo físico, será necessário substituir esse endereço pelo IP local da máquina que está executando o backend.
+
+7. Instalação
+
+Clonar o repositório:
+
+bash
+git clone URL_DO_REPOSITORIO
+
+
+Entrar na pasta do projeto:
+
+bash
+cd fase4
+
+
+Instalar as dependências:
+
+bash
+npm install
+
+
+Certificar-se de que o ambiente Android está configurado e que o emulador está iniciado.
+
+8. Executar Aplicação
+
+Primeiro, iniciar o backend da Fase 2 na porta 3000.
+
+Em seguida, iniciar o Metro:
+
+bash
 npm start
 
-# OR using Yarn
-yarn start
-```
 
-## Step 2: Build and run your app
+Em outro terminal, executar o aplicativo no emulador Android:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+bash
 npm run android
 
-# OR using Yarn
-yarn android
-```
 
-### iOS
+O React Native irá compilar e instalar o aplicativo no emulador.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+Outros comandos disponíveis
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+Executar testes:
 
-```sh
-bundle install
-```
+bash
+npm test
 
-Then, and every time you update your native dependencies, run:
 
-```sh
-bundle exec pod install
-```
+Executar análise estática:
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+bash
+npm run lint
 
-```sh
-# Using npm
+
+Executar no iOS:
+
+bash
 npm run ios
 
-# OR using Yarn
-yarn ios
-```
+9. Componentes e Telas Principais
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Home
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+Tela principal da aplicação;
+Exibe os posts disponíveis;
+Permite pesquisar e visualizar publicações.
 
-## Step 3: Modify your app
+Login
 
-Now that you have successfully run the app, let's make changes!
+Realiza a autenticação do usuário;
+Integra-se ao endpoint /auth/login;
+Armazena o token JWT após autenticação.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+CreatePost
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+Permite a criação de novas publicações;
+Disponível para professores e administradores.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+PostDetails
 
-## Congratulations! :tada:
+Exibe os detalhes de uma publicação;
+Permite visualizar e gerenciar comentários conforme as permissões do usuário.
 
-You've successfully run and modified your React Native App. :partying_face:
+Management
 
-### Now what?
+Centraliza o gerenciamento de alunos e professores.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+StudentList e StudentForm
 
-# Troubleshooting
+Listagem e cadastro de alunos.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+TeacherList e TeacherForm
 
-# Learn More
+Listagem e cadastro de professores.
 
-To learn more about React Native, take a look at the following resources:
+Header
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Componente reutilizável de cabeçalho.
+
+PostList
+
+Componente responsável pela apresentação dos posts.
+
+Comments e Comment
+
+Componentes utilizados na apresentação e gerenciamento dos comentários.
+
+Searchbar
+
+Componente de pesquisa de publicações.
+
+AuthContext
+
+Gerencia autenticação, sessão e permissões dos usuários.
+10. Integração com API
+
+Todas as chamadas HTTP são realizadas utilizando Axios, com configuração centralizada em src/services/api.ts.
+
+A aplicação consome a API local desenvolvida na Fase 2 do projeto.
+
+Serviços implementados
+
+authService
+
+Responsável pela autenticação:
+
+Método	Endpoint	Descrição
+POST	/auth/login	Autenticação do usuário
+
+pessoaService
+
+Responsável pelo gerenciamento de pessoas:
+
+Método	Endpoint	Descrição
+GET	/pessoas	Listar pessoas
+GET	/pessoas/:id	Buscar pessoa por identificador
+POST	/pessoas	Cadastrar pessoa
+PUT	/pessoas/:id	Atualizar pessoa
+DELETE	/pessoas/:id	Remover pessoa
+PATCH	/pessoas/:id/situacao	Alterar situação do usuário
+
+Também são utilizados filtros para listar especificamente alunos e professores.
+
+postService
+
+Responsável pelo gerenciamento de publicações e comentários:
+
+Método	Endpoint	Descrição
+GET	/posts	Listar posts com paginação
+GET	/posts/:id	Buscar post por identificador
+GET	/posts/search	Pesquisar posts
+POST	/posts	Criar post
+PUT	/posts/:id	Atualizar post
+DELETE	/posts/:id	Remover post
+POST	/posts/:id/comentarios	Adicionar comentário
+PUT	/posts/comentarios/:idComentario	Atualizar comentário
+DELETE	/posts/comentarios/:idComentario	Remover comentário
+Autenticação das requisições
+
+O Axios possui um interceptor que recupera o token armazenado no AsyncStorage e adiciona o cabeçalho:
+
+http
+Authorization: Bearer TOKEN_JWT
+
+
+A rota de login é excluída desse processo, pois não exige autenticação prévia.
+
+11. Boas Práticas Aplicadas
+Separação de responsabilidades entre telas, componentes, serviços e contexto;
+Utilização de TypeScript para tipagem estática;
+Context API para gerenciamento global de autenticação;
+AsyncStorage para persistência local do token;
+Axios centralizado para comunicação com o backend;
+Interceptor para envio automático do token JWT;
+Controle de acesso baseado em perfis de usuário;
+Componentização e reutilização de elementos;
+React Navigation para organização da navegação;
+ESLint e Prettier para padronização do código.
+12. Possíveis Evoluções
+Implementação de testes unitários com Jest e React Native Testing Library;
+Testes de integração dos serviços;
+Implementação de testes end-to-end;
+Melhorias no tratamento global de erros da API;
+Implementação de refresh token;
+Melhorias na experiência de autenticação;
+Utilização de variáveis de ambiente para configuração da API;
+Implementação de paginação com carregamento incremental;
+Melhorias de acessibilidade;
+Implementação de notificações push;
+Preparação para publicação nas lojas Google Play e App Store.
+Considerações Finais
+
+O projeto representa a evolução da aplicação de Posts desenvolvida na Fase 2 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP, agora disponibilizada em uma aplicação mobile.
+
+A solução utiliza React Native e TypeScript, integrando autenticação JWT, gerenciamento de usuários, controle de permissões e operações de posts e comentários por meio de uma API REST.
