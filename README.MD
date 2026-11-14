@@ -1,133 +1,152 @@
-🎓 Fase 4 - Plataforma de Posts e Comentários
+Aplicação Mobile de Posts - Documentação Técnica
+1. Visão Geral
 
-!React Native !TypeScript !Axios !Android !Status
+Esta aplicação consiste em um aplicativo mobile desenvolvido em React Native utilizando TypeScript, como parte da entrega da Fase 4 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP.
 
-Projeto desenvolvido como parte da entrega do Módulo 4 da Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP.
+A aplicação realiza a integração com a API REST desenvolvida na entrega da Fase 2.
 
-A aplicação consiste em uma plataforma mobile para publicação, visualização e interação com posts e comentários, com controle de acesso baseado nos diferentes perfis de usuários.
+O aplicativo permite:
 
-📋 Sobre o projeto
+Visualizar posts publicamente;
+Consultar detalhes de posts;
+Visualizar comentários;
+Pesquisar posts por texto;
+Realizar autenticação de usuários;
+Adicionar comentários;
+Criar posts;
+Editar posts;
+Gerenciar comentários;
+Cadastrar alunos e professores;
+Gerenciar usuários.
 
-A plataforma permite que usuários visualizem publicações e comentários, realizem buscas e interajam de acordo com suas permissões.
+O sistema possui controle de acesso baseado em três perfis:
 
-A aplicação possui três perfis de acesso:
+Perfil	Código
+Professor	P
+Aluno	A
+Administrador	D
 
-Aluno: pode visualizar publicações e comentários, realizar buscas e adicionar comentários.
-Professor: pode criar publicações, editar suas próprias publicações e comentários, além de acessar o gerenciamento de usuários.
-Administrador: possui acesso completo, podendo criar, editar e excluir publicações e comentários, inclusive de outros usuários, além de gerenciar alunos e professores.
+Cada perfil possui permissões específicas dentro da aplicação.
 
-As informações são consumidas por meio de uma API local desenvolvida na entrega da Fase 2 do curso.
+2. Tecnologias Utilizadas
+Frontend Mobile
+React Native 0.88.1
+React 19.3.0
+TypeScript 6
+React Navigation 7
+React Native Screens
+React Native Safe Area Context
+Lucide React Native
+React Native SVG
+Integração e Armazenamento
+Axios
+AsyncStorage
+JWT Decode
+Testes e Qualidade
+Jest
+React Test Renderer
+ESLint
+Prettier
+Plataforma
+Android
+Android Studio
+Android Emulator
+3. Arquitetura
 
-🚀 Funcionalidades
-🌐 Funcionalidades públicas
-Visualização de publicações.
-Visualização de detalhes das publicações.
-Visualização de comentários.
-Busca de publicações.
-👨‍🎓 Alunos
-Login na plataforma.
-Visualização de publicações.
-Visualização de comentários.
-Adição de comentários.
-👨‍🏫 Professores
-Login na plataforma.
-Criação de publicações.
-Edição das próprias publicações.
-Edição dos próprios comentários.
-Acesso ao gerenciamento de usuários.
-Cadastro e gerenciamento de alunos e professores.
-🛡️ Administradores
-Acesso completo à plataforma.
-Criação de publicações.
-Edição e exclusão de qualquer publicação.
-Criação, edição e exclusão de comentários.
-Gerenciamento de alunos.
-Gerenciamento de professores.
-Alteração da situação dos usuários.
-🛠️ Tecnologias utilizadas
-Tecnologia	Finalidade
-React Native	Desenvolvimento mobile
-TypeScript	Tipagem estática
-React 19	Biblioteca principal
-React Navigation 7	Navegação entre telas
-Axios	Comunicação com a API
-AsyncStorage	Armazenamento local do token
-JWT Decode	Decodificação de tokens JWT
-Lucide React Native	Ícones
-React Native SVG	Renderização de elementos vetoriais
-Jest	Testes automatizados
-ESLint	Padronização e análise de código
-📁 Estrutura do projeto
-text
-fase4/
+A aplicação utiliza uma organização baseada na separação de responsabilidades.
+
+O contexto de autenticação centraliza as informações do usuário e suas permissões.
+
+Os serviços são responsáveis pela comunicação com a API.
+
+Fluxo da aplicação:
+
+Aplicativo React Native
+        |
+        v
+    Navegação
+        |
+        v
+      Screens
+        |
+        v
+      Context
+        |
+        v
+     Services
+        |
+        v
+       Axios
+        |
+        v
+    API REST
+        |
+        v
+    PostgreSQL
+
+
+A autenticação utiliza JWT para identificar o usuário e controlar o acesso às funcionalidades.
+
+4. Estrutura do Projeto
+fase4
+|
+├── src
 │
-├── src/
-│   ├── context/
-│   │   └── auth.context.tsx
+├── context
+│   └── auth.context.tsx
+│
+├── services
+│   ├── api.ts
+│   ├── auth.service.ts
+│   ├── pessoa.service.ts
+│   └── post.service.ts
+│
+├── storage
+│   └── auth.storage.ts
+│
+├── screens
+│   ├── Login
 │   │
-│   ├── services/
-│   │   ├── api.ts
-│   │   ├── auth.service.ts
-│   │   ├── pessoa.service.ts
-│   │   └── post.service.ts
+│   ├── Home
 │   │
-│   ├── storage/
-│   │   └── auth.storage.ts
+│   ├── CreatePost
 │   │
-│   └── screens/
-│       ├── Login/
-│       ├── Home/
-│       ├── CreatePost/
-│       ├── PostDetails/
-│       └── Management/
-│           ├── TeacherList/
-│           ├── TeacherForm/
-│           ├── StudentList/
-│           └── StudentForm/
+│   ├── PostDetails
+│   │
+│   └── Management
+│       ├── TeacherList
+│       ├── TeacherForm
+│       ├── StudentList
+│       └── StudentForm
 │
 ├── App.tsx
 ├── package.json
-├── tsconfig.json
 └── README.md
 
 
-Estrutura organizada por responsabilidades, separando autenticação, serviços de comunicação com a API, armazenamento e telas da aplicação.
+A estrutura apresentada representa a organização lógica dos módulos. Os diretórios de telas podem conter componentes e arquivos auxiliares próprios.
 
-⚙️ Pré-requisitos
+5. Configuração Inicial
+Pré-requisitos
 
-Antes de executar o projeto, é necessário ter instalado:
+Necessário possuir instalado:
 
-Node.js versão 22.13.0 ou superior.
-npm.
-React Native CLI.
-Android Studio.
-Android SDK.
-Emulador Android configurado.
+Node.js 22.13.0 ou superior;
+npm;
+Android Studio;
+Android SDK;
+Emulador Android;
 API da Fase 2 em execução.
-📥 Instalação
+6. Configuração da API
 
-Clone o repositório:
+A comunicação com o backend é realizada utilizando Axios.
 
-bash
-git clone URL_DO_SEU_REPOSITORIO
+Arquivo:
 
-
-Acesse a pasta do projeto:
-
-bash
-cd fase4
+src/services/api.ts
 
 
-Instale as dependências:
-
-bash
-npm install
-
-🔌 Configuração da API
-
-A aplicação utiliza Axios para realizar as requisições HTTP à API desenvolvida na Fase 2.
-
-A configuração atual está no arquivo src/services/api.ts:
+Configuração:
 
 typescript
 export const api = axios.create({
@@ -138,72 +157,200 @@ export const api = axios.create({
 });
 
 
-Importante: o endereço 10.0.2.2 é utilizado pelo emulador Android para acessar o localhost da máquina hospedeira.
+O endereço 10.0.2.2 é utilizado pelo emulador Android para acessar o localhost da máquina hospedeira.
 
-Antes de executar a aplicação, certifique-se de que:
+A API deve estar em execução na porta 3000.
 
-A API da Fase 2 esteja em execução.
-O servidor esteja disponível na porta 3000.
-O emulador Android consiga acessar a API.
+Importante:
 
-Caso utilize um dispositivo físico, será necessário substituir o endereço pelo IP local da máquina que hospeda a API.
+O backend precisa estar iniciado antes da utilização do aplicativo.
+O emulador deve possuir conectividade com a máquina que executa a API.
+Caso seja utilizado um dispositivo físico, o endereço deverá ser substituído pelo IP local da máquina hospedeira.
+7. Instalação
 
-▶️ Executando a aplicação
+Entrar na pasta do projeto:
 
-Com o emulador Android aberto, execute:
+bash
+cd fase4
 
-Terminal 1 — Metro Bundler
+
+Instalar as dependências:
+
+bash
+npm install
+
+8. Executar Aplicação
+
+Com o emulador Android iniciado, executar o Metro Bundler:
 
 bash
 npm start
 
 
-Terminal 2 — Aplicação Android
+Em outro terminal, executar:
 
 bash
 npm run android
 
 
-A aplicação será compilada e executada no emulador Android.
+O React Native realizará a compilação e instalação da aplicação no emulador Android.
 
-🔐 Autenticação e controle de acesso
+9. Autenticação
 
-A autenticação é realizada por meio de JWT (JSON Web Token).
+A autenticação é realizada por meio da API da Fase 2.
 
-Após o login, o token é armazenado localmente utilizando AsyncStorage.
+Endpoint:
 
-O contexto global de autenticação (AuthContext) disponibiliza as informações do usuário e suas permissões para toda a aplicação.
-
-Os perfis são identificados pelos seguintes códigos:
-
-Código	Perfil
-P	Professor
-A	Aluno
-D	Administrador
-
-O controle de permissões é realizado por meio de propriedades como:
-
-isAuthenticated
-isProfessor
-isStudent
-isAdmin
-canComment
-canCreatePost
-canAccessManagement
-canManageAnyPost
-
-Essa estrutura permite controlar o acesso às funcionalidades de acordo com o perfil autenticado.
-
-🔗 Integração com a API
-
-Os serviços responsáveis pela comunicação com o backend estão organizados em arquivos específicos.
-
-Autenticação
-text
 POST /api/auth/login
 
+
+Body:
+
+json
+{
+  "userName": "usuario",
+  "password": "senha"
+}
+
+
+Após a autenticação, a API retorna o token JWT.
+
+O token é armazenado localmente utilizando AsyncStorage.
+
+Arquivo:
+
+src/storage/auth.storage.ts
+
+
+Operações disponíveis:
+
+saveToken: armazena o token;
+getToken: recupera o token;
+removeToken: remove o token.
+
+A biblioteca JWT Decode é utilizada para decodificar as informações do usuário presentes no token.
+
+10. Contexto de Autenticação
+
+Arquivo:
+
+src/context/auth.context.tsx
+
+
+O AuthContext disponibiliza globalmente as informações do usuário autenticado.
+
+Responsabilidades:
+
+Recuperar autenticação armazenada;
+Carregar dados do usuário;
+Realizar login;
+Realizar logout;
+Identificar o perfil do usuário;
+Controlar permissões de acesso.
+
+Permissões disponibilizadas:
+
+Propriedade	Finalidade
+isAuthenticated	Identifica usuários autenticados
+isProfessor	Identifica professores
+isStudent	Identifica alunos
+isAdmin	Identifica administradores
+canComment	Permite comentar
+canCreatePost	Permite criar posts
+canAccessManagement	Permite acessar gerenciamento
+canManageAnyPost	Permite gerenciar qualquer post
+
+O contexto utiliza React Context API para compartilhar essas informações entre as telas.
+
+11. Controle de Acesso
+
+As funcionalidades são disponibilizadas de acordo com o perfil autenticado.
+
+Público
+
+Não exige autenticação.
+
+Listagem de posts;
+Visualização de detalhes;
+Visualização de comentários;
+Pesquisa de posts.
+Aluno
+
+Perfil:
+
+tipoUsuario = A
+
+
+Permissões:
+
+Visualizar posts;
+Consultar comentários;
+Adicionar comentários.
+Professor
+
+Perfil:
+
+tipoUsuario = P
+
+
+Permissões:
+
+Visualizar posts;
+Criar posts;
+Editar os próprios posts;
+Editar os próprios comentários;
+Acessar gerenciamento de usuários;
+Cadastrar alunos;
+Cadastrar professores.
+Administrador
+
+Perfil:
+
+tipoUsuario = D
+
+
+Permissões:
+
+Acesso completo;
+Criar posts;
+Editar qualquer post;
+Excluir qualquer post;
+Gerenciar comentários;
+Editar comentários;
+Excluir comentários;
+Gerenciar alunos;
+Gerenciar professores;
+Alterar situação dos usuários.
+
+As permissões são disponibilizadas pelo contexto de autenticação e utilizadas na navegação e nas funcionalidades da aplicação.
+
+12. Integração com a API
+
+Os serviços estão organizados por responsabilidade.
+
+Autenticação
+
+Arquivo:
+
+src/services/auth.service.ts
+
+
+Endpoint:
+
+POST /api/auth/login
+
+
+Responsável por realizar a autenticação do usuário.
+
 Pessoas
-text
+
+Arquivo:
+
+src/services/pessoa.service.ts
+
+
+Endpoints utilizados:
+
 GET    /api/pessoas
 GET    /api/pessoas/:id
 POST   /api/pessoas
@@ -211,57 +358,18 @@ PUT    /api/pessoas/:id
 DELETE /api/pessoas/:id
 PATCH  /api/pessoas/:id/situacao
 
-Publicações
-text
+
+Também são utilizados filtros para listagem de professores e alunos.
+
+Posts e Comentários
+
+Arquivo:
+
+src/services/post.service.ts
+
+
+Endpoints utilizados:
+
 GET    /api/posts
 GET    /api/posts/:id
-GET    /api/posts/search
-POST   /api/posts
-PUT    /api/posts/:id
-DELETE /api/posts/:id
-
-Comentários
-text
-POST   /api/posts/:id/comentarios
-PUT    /api/posts/comentarios/:idComentario
-DELETE /api/posts/comentarios/:idComentario
-
-🧪 Testes e qualidade de código
-
-O projeto possui configuração para execução de testes automatizados com Jest e análise estática com ESLint.
-
-Executar os testes:
-
-bash
-npm test
-
-
-Executar o ESLint:
-
-bash
-npm run lint
-
-🎯 Objetivo acadêmico
-
-Este projeto tem como objetivo aplicar os conhecimentos adquiridos durante a Pós-Graduação em Desenvolvimento de Software Full Stack da FIAP, contemplando:
-
-Desenvolvimento de aplicações mobile com React Native.
-Integração entre frontend e backend.
-Consumo de APIs REST.
-Autenticação utilizando JWT.
-Gerenciamento de estado global com Context API.
-Controle de acesso baseado em perfis.
-Armazenamento local de dados.
-Organização e arquitetura de projetos.
-Desenvolvimento de interfaces mobile.
-👩‍💻 Desenvolvimento
-
-Projeto acadêmico desenvolvido para a entrega da Fase 4 — Pós-Graduação em Desenvolvimento de Software Full Stack | FIAP.
-
-Tecnologia principal: React Native + TypeScript.
-
-Plataforma de execução: Android Emulator.
-
-<p align="center">
-Desenvolvido com 💙 para a FIAP
-</p>
+GET    /api
